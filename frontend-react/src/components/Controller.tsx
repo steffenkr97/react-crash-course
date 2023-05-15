@@ -1,13 +1,20 @@
-import React from "react";
+import { useState } from "react";
+import Button from "./Button";
 
 function Controller() {
-  const myFunc = () => {};
+
+  const [hasWon, setHasWon] = useState(false);
+
+  const handlePlaceBet = () => {
+    setHasWon(true)  
+    console.log(hasWon);
+  };
+  
+  console.log("Hello");
 
   return (
     <div className=" container bg-green-300 mx-auto">
-      <button className="transition-all duration-300 border border-black w-full mt-4 px-4 py-4 rounded-sm hover:bg-indigo-600 bg-indigo-400 text-white">
-        Place Bet
-      </button>
+      <Button runFunction={handlePlaceBet}/>
     </div>
   );
 }
