@@ -8,9 +8,20 @@ function Controller() {
   const [betDirection, setBetDirection] = useState("up");
   const [isLoading, setIsLoading] = useState(false);
   const [valStored, setValStored] = useState(0);
+  const [countWins, setCountWins] = useState(0);
+  const [countLosts, setCountLosts] = useState(0);
+  const [winrate, setWinrate] = useState(0.0);
 
   const url =
     "https://www.random.org/integers/?num=1&min=1&max=100&col=1&base=10&format=plain&rnd=new";
+
+  const increaseWins = () => {
+    setCountWins((countWins) => countWins + 1);
+  };
+
+  const increaseLosts = () => {
+    setCountLosts((countLosts) => countLosts + 1);
+  };
 
   const handlePlaceBet = async () => {
     setIsLoading(true);
@@ -25,8 +36,12 @@ function Controller() {
           console.log(val);
           if (val >= 50 && betDirection == "up") {
             isWinner = true;
+            increaseWins();
           } else if (val <= 50 && betDirection == "down") {
             isWinner = true;
+            increaseWins();
+          } else {
+            increaseLosts();
           }
         } else {
           console.error("Error getting the Data!");
@@ -38,6 +53,10 @@ function Controller() {
     // return winner
     setHasWon(isWinner);
     setIsLoading(false);
+    setWinrate(countWins / countLosts);
+    console.log( countWins / countLosts);
+    // setCountWins(wins);
+    // setCountLosts(losts);
   };
 
   useEffect(() => {
@@ -54,6 +73,9 @@ function Controller() {
         valStored={valStored}
         hasWon={hasWon}
       />
+      <div>Wins: {countWins}</div>
+      <div>Losts: {countLosts}</div>
+      <div>Winrate: {winrate}</div>
     </div>
   );
 }
